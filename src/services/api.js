@@ -78,7 +78,7 @@ export const fetchProfiles = async ({ page = 1, filter = "", gender = "", countr
 export const fetchProfileDetail = async (id) => {
   try {
     const response = await api.get(`/api/profiles/${id}`);
-    return response.data.profile;
+    return response.data.data;
   } catch (error) {
     throw error.response?.data || error;
   }
