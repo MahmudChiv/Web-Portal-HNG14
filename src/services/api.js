@@ -14,12 +14,15 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+      
+      console.log("401 received, attempting refresh...");
       try {
-        await axios.post(
+        const refresh = await axios.post(
           `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`,
           {},
           { withCredentials: true, headers: { "x-api-version": 1 } }
         );
+        console.log("Refresh response:", refresh);
         return api(originalRequest);
       } catch (refreshError) {
         if (window.location.pathname !== "/login") {
